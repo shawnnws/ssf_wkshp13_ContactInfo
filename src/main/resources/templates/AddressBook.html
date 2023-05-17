@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <h1>Employee Particulars Form</h1>
+    <!--To not indicate any indication for landing page(home page), use # or leave action blank, 
+        this means localhost.8080 will default to landing page automatically-->
+    <!-- <form action=""></form>  -->
+    
+    <!--Take note of thymeleaf syntax, they are standard so can be saved for reference
+
+        data-th-action="@{/______}"         --- execution of PUT method
+        data-th-objects="${______}"         --- link to Contact class to create contact object
+        data-th-field="*{______}"           --- link input to that specific attribute in Contact class
+        data-th-errors = "*{______}"            --- refer to error message to display as specified under the attribute in Contact class
+        data-th-if="${#fields.hasErrors('______')}"         --- check if input is invalid according to constraints specified in Contact class
+        data-th-if = "${#fields.hasErrors('global')         --- is this a standard syntax to check
+
+        Thymeleaf: data-th-field="*{name/email/phoneNumber}" are equivalent of html syntax like id etc
+        The field names should correspond to our attributes defined for Contact Class
+        @{/contact} is to map to the corresponding PostMapping method in Controller-->
+
+    <form data-th-action="@{/contact}" data-th-object="${contact}" method="POST">
+
+        <p>
+            Name:
+            <input type="text" data-th-field="*{name}" />
+            <br/>
+            <!--We display a message if an incorrect input is detected-->
+            <span class = "error" data-th-if="${#fields.hasErrors('name')}" data-th-errors = "*{name}" style="color: red"></span>
+        </p>
+        <br/>
+
+        <p>
+            Email:
+            <input type="text" data-th-field="*{email}" />
+            <br/>
+            <!--We display a message if an incorrect input is detected-->
+            <span class = "error" data-th-if="${#fields.hasErrors('email')}" data-th-errors = "*{email}" style="color: red"></span>
+        </p>
+        <br/>
+
+        <p>
+            Phone Number:
+            <input type="text" data-th-field="*{phoneNumber}" />
+            <br/>
+            <!--We display a message if an incorrect input is detected-->
+            <span class = "error" data-th-if="${#fields.hasErrors('phoneNumber')}" data-th-errors = "*{phoneNumber}" style="color: red"></span>
+        </p>
+
+        <p>
+            Date Of Birth:
+            <input type="date" data-th-field="*{dateOfBirth}" />
+            <br/>
+            <!--We display a message if an incorrect input is detected-->
+            <span class = "error" data-th-if="${#fields.hasErrors('dateOfBirth')}" data-th-errors = "*{dateOfBirth}" style="color: red"></span>
+            <br/>
+            <span class = "error" data-th-if="${#fields.hasErrors('age')}" data-th-errors = "*{age}" style="color: red"></span>
+
+        </p>
+
+        <br/>
+
+        <!--global is a Thymeleaf default syntax
+            This checks for any form of errors not associated with any fields in the form, but still exists-->
+        <div data-th-if = "${#fields.hasErrors('global')}">
+
+            <p data-th-each = "err: ${#fields.errors('global')}"
+            data-th-text="${err}" class= "error"></p>
+
+        </div>
+
+        <br/>
+
+        <!--Button to submit data-->
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+
+    </form>
+
+</body>
+</html>
